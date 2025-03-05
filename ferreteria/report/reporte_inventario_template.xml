@@ -1,0 +1,66 @@
+<odoo>
+    <template id="reporte_inventario">
+    	<!-- Se define el nombre de la plantilla, debe coincidir con el "report_name" en reporte_inventario.xml -->
+        <t t-name="ferreteria.reporte_inventario">
+            <!-- Contenedor general de la página -->
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Estilos CSS para la tabla -->
+                        <style>
+
+                            .tabla-inventario {
+                                width: 100%;
+                            }
+                            .tabla-inventario th.col-producto {
+                                width: 70%;
+                            }
+                            .tabla-inventario th.col-stock, 
+                            .tabla-inventario td.col-stock {
+                                width: 30%;
+                                text-align: center;
+                            }                            
+                        </style>			
+			<!-- Título del reporte -->
+                        <h1 style="text-align: center;">Inventario de Productos</h1>
+                        <br/>
+                        <!-- 1. Obtener todas las categorías de los productos (ordenadas por nombre) -->
+                        <t t-set="categorias" t-value="docs.mapped('categoria_id').sorted(key=lambda c: c.name)"/>
+                        <!-- 2. Iterar sobre cada categoría -->
+                        <t t-foreach="categorias" t-as="cat">
+                            <!-- Encabezado con el nombre de la categoría -->
+                            <h3 t-esc="cat.name"/>                            
+                            <!-- Tabla para los productos de esta categoría -->
+                            <table class="table table-bordered tabla-inventario">
+                                <thead>
+                                    <tr>
+                                        <th class="col-producto">Productos</th>
+                                        <th class="col-stock">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- 3. Filtrar los productos de esta categoría -->
+                                    <t t-foreach="docs.filtered(lambda p: p.categoria_id == cat)" t-as="producto">
+                                        <!-- Cambia el color del texto si el stock es bajo -->
+                                        <tr t-att-style="'color:red;' if producto.stock &lt;= 5 else ('color:orange;' if producto.stock &lt;= 10 else '')">
+                                            <td>
+                                                <!-- Mostrar el nombre del producto -->
+                                                <t t-esc="producto.name"/>
+                                            </td>
+                                            <td class="col-stock">
+                                                <!-- Mostrar la cantidad en stock -->
+                                                <t t-esc="producto.stock"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <br/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,21 @@
+<odoo>
+    
+    <!-- Definición de la acción de impresión para el Reporte de Inventario -->
+    <record id="action_reporte_inventario" model="ir.actions.report">
+        <!-- Nombre que aparecerá en el botón "Imprimir" dentro de Odoo -->
+        <field name="name">Reporte de Inventario</field>
+        
+        <!-- Modelo sobre el cual se basa el informe, en este caso "ferreteria.producto" -->
+        <field name="model">ferreteria.producto</field>
+        
+        <!-- Nombre de la plantilla QWeb que se utilizará para generar el PDF -->
+        <field name="report_name">ferreteria.reporte_inventario</field>
+        
+        <!-- Tipo de reporte: "qweb-pdf" indica que se generará en formato PDF -->
+        <field name="report_type">qweb-pdf</field>
+        
+        <!-- Nombre del archivo cuando se descargue el PDF -->
+        <field name="print_report_name">'Inventario.pdf'</field>
+    </record>
+
+</odoo>

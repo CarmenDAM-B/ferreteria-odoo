@@ -1,0 +1,26 @@
+<odoo>
+
+    <!-- Menú principal -->
+    <menuitem id="menu_ferreteria" name="Ferretería"/>
+        
+    <!-- Menú de Productos -->
+    <menuitem id="menu_productos" name="Productos" parent="menu_ferreteria" action="action_producto"/>
+    
+    <!-- Submenú de Categorías dentro de Productos -->
+    <menuitem id="menu_categoria_herramientas" name="Herramientas" parent="menu_productos" action="action_productos_herramientas"/>
+
+    <menuitem id="menu_categoria_materiales" name="Materiales de Construcción" parent="menu_productos" action="action_productos_materiales"/>
+
+    <menuitem id="menu_categoria_otros" name="Otros" parent="menu_productos" action="action_productos_otros"/>
+
+    <!-- Menú de Ventas -->    
+    <menuitem id="menu_ventas" name="Ventas" parent="menu_ferreteria" action="action_venta"/>
+
+    <!-- Menú para ver el inventario en forma gráfica -->
+    <menuitem id="menu_inventario_grafico" name="Inventario Gráfico" parent="menu_ferreteria" action="action_graph_inventario"/>
+
+    <!-- Menú para Imprimir Inventario en PDF -->
+    <menuitem id="menu_print_inventario" name="Imprimir Inventario" parent="menu_ferreteria" action="action_print_inventario_server" sequence="99"/>
+
+</odoo>
+

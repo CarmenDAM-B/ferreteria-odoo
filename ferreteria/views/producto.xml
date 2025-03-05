@@ -1,0 +1,137 @@
+<odoo>
+    
+    <!-- ==================== VISTAS ==================== -->
+    
+    <!-- Vista FORM para Productos -->
+    <record model="ir.ui.view" id="vista_form_producto">
+        <field name="name">producto.form</field>
+        <field name="model">ferreteria.producto</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" string="Nombre"/>
+                        <field name="precio" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="currency_id"/>
+                        <field name="stock" string="Stock"/>
+                        <field name="categoria_id" string="Categoría"/>
+                        <field name="descripcion" string="Descripción"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista TREE para Productos -->
+    <record model="ir.ui.view" id="vista_tree_producto">
+        <field name="name">producto.tree</field>
+        <field name="model">ferreteria.producto</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Productos" 
+                  decoration-danger="stock &lt;= 5"
+                  decoration-warning="stock &lt;= 10 and stock &gt; 5">
+                <field name="name" string="Nombre"/>
+                <field name="precio" string="Precio" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="currency_id"/>
+                <field name="stock" string="Stock"/>
+                <field name="categoria_id" string="Categoría"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista SEARCH para Productos -->
+    <record model="ir.ui.view" id="vista_search_producto">
+        <field name="name">producto.search</field>
+        <field name="model">ferreteria.producto</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="categoria_id"/>
+                <field name="precio" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="currency_id"/>
+                <group string="Agrupar por">
+                    <filter name="group_by_categoria" string="Categoría" context="{'group_by': 'categoria_id'}"/>
+                </group>
+                <!-- Los filtros que se definirá en las acciones -->
+                <filter name="filtro_herramientas" 
+                        string="Herramientas" 
+                        domain="[('categoria_id', '=', context.get('categoria_herramientas_id'))]"/>
+                <filter name="filtro_materiales" 
+                        string="Materiales de Construcción" 
+                        domain="[('categoria_id', '=', context.get('categoria_materiales_id'))]"/>
+                <filter name="filtro_otros" 
+                        string="Otros" 
+                        domain="[('categoria_id', '=', context.get('categoria_otros_id'))]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vista GRAPH para Productos -->
+    <record id="view_graph_inventario" model="ir.ui.view">
+        <field name="name">producto.graph.inventario</field>
+        <field name="model">ferreteria.producto</field>
+        <field name="arch" type="xml">
+            <graph string="Inventario por Categoría" type="bar">
+                <!-- Define el campo que se usará como medida -->
+                <field name="stock" type="measure"/>
+                <!-- Define el campo que se usará para agrupar, en este caso la categoría -->
+                <field name="categoria_id" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ==================== ACCIONES ==================== -->
+    
+    <!-- Acción para Productos -->
+    <record model="ir.actions.act_window" id="action_producto">
+        <field name="name">Productos</field>
+        <field name="res_model">ferreteria.producto</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+     <!-- Acción para mostrar Productos de Herramientas -->
+    <record model="ir.actions.act_window" id="action_productos_herramientas">
+        <field name="name">Herramientas</field>
+        <field name="res_model">ferreteria.producto</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context" eval="{'categoria_herramientas_id': ref('ferreteria.categoria_herramientas'), 'search_default_filtro_herramientas': True}"/>
+    </record>
+
+    <!-- Acción para mostrar Productos de Materiales de Construcción -->
+    <record model="ir.actions.act_window" id="action_productos_materiales">
+        <field name="name">Materiales de Construcción</field>
+        <field name="res_model">ferreteria.producto</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context" eval="{'categoria_materiales_id': ref('ferreteria.categoria_materiales'), 'search_default_filtro_materiales': True}"/>
+    </record>
+
+    <!-- Acción para mostrar Productos de Otros -->
+    <record model="ir.actions.act_window" id="action_productos_otros">
+        <field name="name">Otros</field>
+        <field name="res_model">ferreteria.producto</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context" eval="{'categoria_otros_id': ref('ferreteria.categoria_otros'), 'search_default_filtro_otros': True}"/>
+    </record>
+
+    <!-- Acción para mostrar el gráfico -->
+    <record id="action_graph_inventario" model="ir.actions.act_window">
+        <field name="name">Inventario Gráfico</field>
+        <field name="res_model">ferreteria.producto</field>
+        <field name="view_mode">graph,tree,form</field>
+        <field name="view_id" ref="view_graph_inventario"/>
+    </record>
+
+    <!-- Acción de Servidor para imprimir Inventario -->
+    <record model="ir.actions.server" id="action_print_inventario_server">
+        <field name="name">Inventario PDF</field>
+        <field name="model_id" ref="model_ferreteria_producto"/>
+        <field name="binding_model_id" ref="model_ferreteria_producto"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_print_inventario()</field>    
+    </record>
+
+</odoo>
+

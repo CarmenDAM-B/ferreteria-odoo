@@ -1,0 +1,63 @@
+<odoo>
+
+    <!-- ==================== VISTAS ==================== -->
+    <!-- Vista FORM para Ventas -->
+    <record model="ir.ui.view" id="vista_form_venta">
+        <field name="name">venta.form</field>
+        <field name="model">ferreteria.venta</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" string="Número de Venta"/>
+                        <field name="precio_total" string="Total" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="currency_id"/>
+                    </group>
+                    <field name="lineas_venta_ids" widget="one2many_list">
+                        <tree editable="bottom">
+                            <field name="producto_id" string="Producto" options="{'no_create': True}"/>
+                            <field name="cantidad" string="Cantidad"/>
+                            <field name="subtotal" string="Subtotal" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id"/>
+                        </tree>
+                    </field>
+               </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista TREE para Ventas -->
+    <record model="ir.ui.view" id="vista_tree_venta">
+        <field name="name">venta.tree</field>
+        <field name="model">ferreteria.venta</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Ventas">
+                <field name="name" string="Número de Venta"/>
+                <field name="productos_resumen" string="Productos"/>
+                <field name="cantidad_total" string="Cantidad total"/>
+                <field name="precio_total" string="Total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="currency_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista SEARCH para Ventas -->
+    <record model="ir.ui.view" id="vista_search_venta">
+        <field name="name">venta.search</field>
+        <field name="model">ferreteria.venta</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ==================== ACCIONES ==================== -->
+    <!-- Acción para Ventas -->
+    <record model="ir.actions.act_window" id="action_venta">
+        <field name="name">Ventas</field>
+        <field name="res_model">ferreteria.venta</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,20 @@
+<!--  Agregamos este código para que el número de poducto y venta sea automático -->
+<odoo>
+    <data noupdate="1">
+        <record id="sequence_producto" model="ir.sequence">
+            <field name="name">Secuencia para Productos</field>
+            <field name="code">ferreteria.producto</field>
+            <field name="prefix">PROD-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    
+        <record id="sequence_venta" model="ir.sequence">
+            <field name="name">Secuencia de Ventas</field>
+            <field name="code">ferreteria.venta</field>
+            <field name="prefix">VENT-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

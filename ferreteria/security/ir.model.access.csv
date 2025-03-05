@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ferreteria_producto,ferreteria.producto,model_ferreteria_producto,,1,1,1,1
+access_ferreteria_venta,ferreteria.venta,model_ferreteria_venta,,1,1,1,1
+access_ferreteria_categoria,ferreteria.categoria,model_ferreteria_categoria,,1,1,1,1
+access_ferreteria_venta_linea,ferreteria.venta.linea,model_ferreteria_venta_linea,,1,1,1,1
